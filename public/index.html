@@ -59,6 +59,22 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel  panel-success">
+                <div class="panel-heading">磁力链接4</div>
+                <ul class="list-group" id="magnet4">
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel  panel-success">
+                <div class="panel-heading">磁力链接5</div>
+                <ul class="list-group" id="magnet5">
+                </ul>
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -70,6 +86,7 @@
 <script>
     $(function () {
         var li = '<li class="list-group-item"><span></span><button class="btn btn-default btn-xs fr">copy</button></li>';
+        var list = $('ul.list-group');
         var getNumber = function (code, dom) {
             $.get('/magnet',{code:code,name:dom}, function (data) {
                 updateDOM(data.data, dom)
@@ -88,12 +105,16 @@
             if (! code) {
                 return alert('请输入查询串')
             }
+            list.slideUp();
+            list.children('li').remove()
             getNumber(code,'pan')
             getNumber(code,'magnet1')
             getNumber(code,'magnet2')
             getNumber(code,'magnet3')
+            getNumber(code,'magnet4')
+            getNumber(code,'magnet5')
         })
-        $('ul.list-group').on('click','li>button', function () {
+        list.on('click','li>button', function () {
             $(this).toggleClass('active').parent().find('span').toggleClass('show')
         })
     })

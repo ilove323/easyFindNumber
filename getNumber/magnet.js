@@ -94,5 +94,43 @@ module.exports = {
                 })
             }
         })
+    },
+    magnet4: (code, cb) => {
+        let resource = [];
+        request.get('http://btdigge.com/s/' + code, (err, res, body) => {
+            if (! err && res.statusCode == 200) {
+                let $ = cheerio.load (body);
+                let tr = $("a:contains('磁力下载')");
+                const length = (tr.length < 5 ? tr.length - 1 : 4);
+                [].forEach.call(tr, (v, i) => {
+                    if (i < 5) {
+                        resource.push ({
+                            link: $(v).attr('href'),
+                            size: $($(v).parent().parent().find('td')[1]).html()
+                        })
+                    }
+                    if (i == length) cb (resource)
+                })
+            }
+        })
+    },
+    magnet5: (code, cb) => {
+        let resource = [];
+        request.get('http://www.btmayi.me/q?kw=' + code, (err, res, body) => {
+            if (! err && res.statusCode == 200) {
+                let $ = cheerio.load (body);
+                let a = $("a:contains('磁力链接')");
+                const length = (a.length < 5 ? a.length - 1 : 4);
+                [].forEach.call(a, (v, i) => {
+                    if (i < 5) {
+                        resource.push ({
+                            link: $(v).attr('href'),
+                            size: $($(v).parent().find('span>.yellow-pill')[1]).html()
+                        })
+                    }
+                    if (i == length) cb (resource)
+                })
+            }
+        })
     }
 }

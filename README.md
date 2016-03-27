@@ -5,5 +5,5 @@
 
 ##起步
 `npm install easy-find-number` //安装工具  
-`cd .\node_modules\easy-find-number\` //进入文件夹
+`cd .\node_modules\easy-find-number\` //进入文件夹  
 `npm start` 

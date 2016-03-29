@@ -13,17 +13,19 @@ module.exports = {
         request.get ('http://www.wangpansou.cn/s.php?wp=0&ty=gn&op=gn&q=' + code, (err, res, body) => {
             if (! err && res.statusCode == 200) {
                 let $ = cheerio.load (body);
-                let a = $ ('.cse-search-result_content_item_top_a');
+                const a = $ ('.cse-search-result_content_item_top_a');
                 const length = (a.length < 5 ? a.length - 1 : 4);
                 [].forEach.call (a, (v, i) => {
                     if (i < 5) {
                         resource.push ({
                             link: $ (v).attr ('href'),
-                            size: '网盘链接'
+                            size: '网盘'
                         })
                     }
-                    if (i == length) cb (resource)
+                    if (i == length) cb (null, resource)
                 })
+            }else{
+                cb (err)
             }
         })
     },
@@ -32,7 +34,7 @@ module.exports = {
         request.get ('http://btcherry.org/search?keyword=' + code, (err, res, body) => {
             if (! err && res.statusCode == 200) {
                 let $ = cheerio.load (body);
-                let a = $ ('.r');
+                const a = $ ('.r');
                 const length = (a.length < 5 ? a.length - 1 : 4);
                 [].forEach.call (a, (v, i) => {
                     if (i < 5) {
@@ -42,8 +44,10 @@ module.exports = {
                             size: $ (div.find ('.prop_val')[1]).text ()
                         })
                     }
-                    if (i == length) cb (resource)
+                    if (i == length) cb (null, resource)
                 })
+            }else{
+                cb (err)
             }
         })
     },
@@ -52,7 +56,7 @@ module.exports = {
         request.get ('http://www.bthave.net/search/' + code + '.html', (err, res, body) => {
             if (! err && res.statusCode == 200) {
                 let $ = cheerio.load (body);
-                let a = $ ('.search-item h3 a');
+                const a = $ ('.search-item h3 a');
                 const length = (a.length < 5 ? a.length - 1 : 4);
                 [].forEach.call (a, (v, i) => {
                     if (i < 5) {
@@ -65,7 +69,7 @@ module.exports = {
                                             link: $ ('.panel-body a').attr ('href'),
                                             size: $ ('.yellow-pill').text ()
                                         })
-                                        if (i == length) cb (resource)
+                                        if (i == length) cb (null, resource)
                                         clearTimeout (time);
                                     }
                                 })
@@ -73,6 +77,8 @@ module.exports = {
                         }
                     }
                 })
+            }else{
+                cb (err)
             }
         })
     },
@@ -81,7 +87,7 @@ module.exports = {
         request.get('http://www.cilisou.cn/s.php?q=' + code, (err, res, body) => {
             if (! err && res.statusCode == 200) {
                 let $ = cheerio.load (body);
-                let a = $('.ttth a');
+                const a = $('.ttth a');
                 const length = (a.length < 5 ? a.length - 1 : 4);
                 [].forEach.call(a, (v, i) => {
                     if (i < 5) {
@@ -90,8 +96,10 @@ module.exports = {
                             size: ''.trim.call ($ ($ (v).parent ().parent ().find ('.attr_val')[0]).text ().replace (/\r\n/g, ''))
                         })
                     }
-                    if (i == length) cb (resource)
+                    if (i == length) cb (null, resource)
                 })
+            }else{
+                cb (err)
             }
         })
     },
@@ -100,7 +108,7 @@ module.exports = {
         request.get('http://btdigge.com/s/' + code, (err, res, body) => {
             if (! err && res.statusCode == 200) {
                 let $ = cheerio.load (body);
-                let tr = $("a:contains('磁力下载')");
+                const tr = $("a:contains('磁力下载')");
                 const length = (tr.length < 5 ? tr.length - 1 : 4);
                 [].forEach.call(tr, (v, i) => {
                     if (i < 5) {
@@ -109,8 +117,10 @@ module.exports = {
                             size: $($(v).parent().parent().find('td')[1]).html()
                         })
                     }
-                    if (i == length) cb (resource)
+                    if (i == length) cb (null, resource)
                 })
+            }else{
+                cb (err)
             }
         })
     },
@@ -119,7 +129,7 @@ module.exports = {
         request.get('http://www.btmayi.me/q?kw=' + code, (err, res, body) => {
             if (! err && res.statusCode == 200) {
                 let $ = cheerio.load (body);
-                let a = $("a:contains('磁力链接')");
+                const a = $("a:contains('磁力链接')");
                 const length = (a.length < 5 ? a.length - 1 : 4);
                 [].forEach.call(a, (v, i) => {
                     if (i < 5) {
@@ -128,8 +138,10 @@ module.exports = {
                             size: $($(v).parent().find('span>.yellow-pill')[1]).html()
                         })
                     }
-                    if (i == length) cb (resource)
+                    if (i == length) cb (null, resource)
                 })
+            }else{
+                cb (err)
             }
         })
     }

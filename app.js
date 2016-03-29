@@ -23,7 +23,11 @@ app.get('/magnet', (req, res) => {
     if (!code || !getName) {
         return res.json({msg:'查询串出错或未填写', status: 0})
     }
-    return pan[getName](code, (v) => {
+    return pan[getName](code, (err, v) => {
+        if (err) {
+            res.status(200)
+            return res.json({msg:'未查询到数据', status: 0})
+        }
         res.status(200)
         return res.json({data: v,status: 1})
     })
